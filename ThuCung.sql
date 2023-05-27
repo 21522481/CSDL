@@ -1,0 +1,143 @@
+CREATE TABLE HOADON
+(
+	SOHD            NUMBER(8,0) not null primary key,
+	NGHD            DATE,
+	PHUONGTHUCTT    NVARCHAR2(50),
+	GIAMGIA         NUMBER(12,0),
+	TRIGIA          NUMBER(12,0),
+    TONGCONG        NUMBER(12,0),
+	MANV            NUMBER(8,0)
+)
+CREATE TABLE GUITHUCUNG
+(
+    SOPHIEUGUI  NUMBER(8,0) NOT NULL PRIMARY KEY,
+	TEN         NVARCHAR2(50),
+	NGAYGUI     DATE,
+	NGAYTRA     DATE,
+	LOAI        NVARCHAR2(50),
+	GIOITINH    NVARCHAR2(50),
+	GIA         NUMBER(12,0),
+    MAKH        NUMBER(8,0)
+)
+--TAIKHOAN
+CREATE TABLE TAIKHOAN(
+	MANV	NUMBER(8,0),
+	TENDN	VARCHAR2(20),
+	MK		VARCHAR2(20),
+	constraint pk_tk primary key(MANV)
+)
+----------------------------------
+-- CTHD
+CREATE TABLE CTHD(
+	SOHD	NUMBER(8,0),
+	ID		NUMBER(8,0),
+	SL		NUMBER(8,0),
+    THANHTIEN NUMBER(12,0),
+	constraint pk_cthd primary key(SOHD,ID)
+)
+----------------------------------
+----SANPHAM////////
+--CREATE TABLE SANPHAM(
+--	MASP		NUMBER(8,0) not null,
+--	NGNHAP	DATE,
+--    TENSP	NVARCHAR2(50),
+--	LOAISP	NVARCHAR2(50),
+--	NSX	    DATE,
+--	HSD		DATE,
+--	NgGOC   NVARCHAR2(50),
+--    GIA		NUMBER(12,0),
+--	SL		NUMBER(8,0),
+--	constraint pk_hh primary key(MASP)
+--)
+----------------------------------
+----------------------------------
+----------------------------------
+--set dateformat dmy
+
+--CREATE TABLE THUCUNG (
+--  MATC        NUMBER(8,0) NOT NULL PRIMARY KEY,
+--  NGNHAP    DATE,
+--  LOAI      NVARCHAR2(50),
+--  GIONG     NVARCHAR2(50),
+--  GIOITINH  NVARCHAR2(10),
+--  CANNANG   NUMBER(8,2),
+--  SL        NUMBER(8,0),
+--  GIA       NUMBER(12,0)
+--);
+CREATE TABLE KHACHHANG (
+  MAKH      NUMBER(8,0) NOT NULL PRIMARY KEY,
+  HOTEN     NVARCHAR2(50),
+  LOAI      NVARCHAR2(20),
+  NGSINH    DATE,
+  DIACHI    NVARCHAR2(100),
+  SDT       VARCHAR2(15),
+  EMAIL     VARCHAR2(50)
+
+);
+CREATE TABLE NHANVIEN (
+  MANV      NUMBER(8,0) NOT NULL PRIMARY KEY,
+  HOTEN     NVARCHAR2(50),
+  NGSINH    DATE,
+  GIOITINH  NVARCHAR2(10),
+  SDT       VARCHAR2(20),
+  DIACHI    NVARCHAR2(100),
+  CHUCVU    NVARCHAR2(50)
+);
+--CREATE TABLE HANGHOA (
+--    SOHH NUMBER(8,0) NOT NULL PRIMARY KEY,
+--    MASP NUMBER(8,0),
+--    MATC NUMBER(8,0)
+--)
+--ALTER TABLE HANGHOA ADD FOREIGN KEY (MASP) REFERENCES SANPHAM (MASP)
+--ALTER TABLE HANGHOA ADD FOREIGN KEY (MATC) REFERENCES THUCUNG (MATC)
+--/
+-----------------------------------------------------
+--ALTER TABLE HANGHOA DROP CONSTRAINT SYS_C007618
+--ALTER TABLE HANGHOA DROP CONSTRAINT SYS_C007617
+--ALTER TABLE CTHD DROP CONSTRAINT FK02_CTHD
+--
+--DROP TABLE HANGHOA
+--
+--DROP TABLE SANPHAM
+--
+--DROP TABLE THUCUNG
+-----------------------------------------------------
+--ALTER TABLE CTHD ADD THANHTIEN NUMBER(12,0);
+---------------------------------------------------
+CREATE TABLE DANHMUC (
+    MADM    NUMBER(8,0) NOT NULL PRIMARY KEY,
+    LOAI    NVARCHAR2(50),
+    TEN     NVARCHAR2(80),
+    NSX     DATE,
+    HSD     DATE,
+    KL      VARCHAR2(50), ---KH?I L??NG
+    GT      NVARCHAR2(50),
+    NG_GOC  NVARCHAR2(50),
+    SL      NUMBER(8,0),
+    GIA     NUMBER(12,0)
+)
+---------------------------------------------------
+ALTER TABLE GUITHUCUNG ADD FOREIGN KEY (MAKH) REFERENCES KHACHHANG(MAKH)
+ALTER TABLE HOADON ADD FOREIGN KEY (MANV) REFERENCES NHANVIEN (MANV)
+-- Khoa ngoai cho bang TAIKHOAN
+ALTER TABLE TAIKHOAN ADD CONSTRAINT fk_TK FOREIGN KEY(MANV) REFERENCES NHANVIEN(MANV)
+-- Khoa ngoai cho bang CTHD
+ALTER TABLE CTHD ADD CONSTRAINT fk01_CTHD FOREIGN KEY(SOHD) REFERENCES HOADON(SOHD)
+ALTER TABLE CTHD ADD FOREIGN KEY (ID) REFERENCES DANHMUC(MADM);
+--ALTER TABLE CTHD ADD CONSTRAINT fk02_CTHD FOREIGN KEY(ID) REFERENCES HANGHOA(SOHH)
+----------------------------------
+
+
+
+
+------------------------------------------------------------------------------------------
+--CAP NHAT NGAY 25/5/2023
+ALTER TABLE KHACHHANG ADD CHECK (LOAI IN('VIP', 'THÀNH VIÊN'))
+/
+
+
+
+
+
+
+
